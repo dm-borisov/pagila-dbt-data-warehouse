@@ -32,6 +32,9 @@ services:
   postgres-dwh:
     image: postgres:latest
     container_name: pagila_dwh
+    depends_on:
+      postgres-backend:
+        condition: service_healthy
     environment:
       POSTGRES_USER: ${DWH_USER:-dwh_dev}
       POSTGRES_PASSWORD: ${DWH_PASSWORD:-password}
@@ -40,9 +43,10 @@ services:
     ports:
       - "${DWH_PORT:-5431}:5432"
     volumes:
+      - ./dwh/init-fdw.sql:/docker-entrypoint-initdb.d/init-fdw.sql
       - dwh-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DWH_USER:-dwh_dev} -d ${DWH_DB:-dwh}"]
+      test: ["CMD-SHELL", "pg_isready -U ${DWH_USER:-dwh_dev} -d ${DWH_DB:-dwh} && nc -z postgres-backend 5432"]
       interval: 10s
       timeout: 5s
       retries: 5
