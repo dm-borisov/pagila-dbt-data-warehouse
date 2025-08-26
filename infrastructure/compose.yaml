@@ -29,6 +29,32 @@ services:
         limits:
           cpus: '1'
           memory: 4G
+  postgres-dwh:
+    image: postgres:latest
+    container_name: pagila_dwh
+    environment:
+      POSTGRES_USER: ${DWH_USER:-dwh_dev}
+      POSTGRES_PASSWORD: ${DWH_PASSWORD:-password}
+      POSTGRES_DB: ${DWH_DB:-dwh}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    ports:
+      - "${DWH_PORT:-5431}:5432"
+    volumes:
+      - dwh-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DWH_USER:-dwh_dev} -d ${DWH_DB:-dwh}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 4G
+
 
 volumes:
     pagila-data:
+    dwh-data:
