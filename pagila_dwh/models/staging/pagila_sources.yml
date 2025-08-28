@@ -1,0 +1,32 @@
+sources:
+  - name: backend_src
+    tables:
+      - name: film
+        descrtiption: A list of all films potentially in stock in the stores
+        columns:
+          - name: film_id
+            description: A surrogate primary key used to uniquely identify each film in the table
+          - name: title
+            description: The title of the film
+          - name: description
+            description: A short description or plot summary of the film
+          - name: release_year
+            description: The year in which the movie was released
+          - name: language_id
+            description: A foreign key pointing at the language table; identifies the language of the film
+          - name: original_language_id
+            description: A foreign key pointing at the language table; identifies the original language of the film
+          - name: rental_duration
+            description: The length of the rental period, in days
+          - name: rental_rate
+            description: The cost to rent the film for the period specified in the rental_duration column
+          - name: length
+            description: The duration of the film, in minutes
+          - name: replacement_cost
+            description: The amount charged to the customer if the film is not returned or is returned in a damaged state
+          - name: rating
+            description: The rating assigned to the film
+          - name: last_update
+            description: When the row was created or most recently updated
+          - name: special_features
+            description: Lists which common special features are included on the DVD
