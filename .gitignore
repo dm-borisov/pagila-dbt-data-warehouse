@@ -1,2 +1,7 @@
 .venv
 .env
+logs
+pagila_dwh/target/
+pagila_dwh/dbt_packages/
+pagila_dwh/logs/
+pagila_dwh/.gitignore
